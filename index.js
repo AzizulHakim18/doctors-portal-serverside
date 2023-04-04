@@ -74,7 +74,11 @@ async function run() {
       const bookings = await bookingsCollection.find(query).toArray();
       res.send(bookings);
     })
-
+    app.get('/allappointments', async (req, res) => {
+      const query = {}
+      const allappointments = await bookingsCollection.find(query).toArray();
+      res.send(allappointments)
+    })
 
 
     app.get('/jwt', async (req, res) => {

@@ -134,7 +134,23 @@ async function run() {
       const result = await usersCollection.updateOne(filter, updatedDoc, options)
       res.send(result)
     })
+    app.delete('/allappointments/:id', verifyJWT, async (req, res) => {
+      const decodedEmail = req.decoded.email;
+      const query = { email: decodedEmail };
+      const user = await usersCollection.findOne(query);
 
+      if (user?.role !== 'admin') {
+        return res.status(403).send({ message: 'Only admin can delete this item.' })
+      }
+      const { id } = req.params
+      const filter = { _id: ObjectId(id) }
+
+
+      console.log(id);
+      const result = await bookingsCollection.deleteOne(filter);
+      res.send(result)
+
+    })
   }
   finally {
 
